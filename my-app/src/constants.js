@@ -1,0 +1,4 @@
+export const ADD_SYMBOL = 'ADD_SYMBOL'
+export const CLEAR_LAST_OPERAND='CLEAR_LAST_OPERAND'
+export const SET_OPERATOR='SET_OPERATOR'
+export const CLEAR_ALL='CLEAR_ALL'
