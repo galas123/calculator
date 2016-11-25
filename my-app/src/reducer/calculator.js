@@ -31,6 +31,7 @@ export default (calculation = defaultState, action) => {
       if (newState.operator == '=') {
         newState.leftOperand  = null
         newState.rightOperand = null
+        newState.operator= null
         newState.show = 0
         newState.leftOperandHint=''
         newState.rightOperandHint=''
@@ -42,6 +43,7 @@ export default (calculation = defaultState, action) => {
       }
 
       newState.show += payload.symbol
+      newState.show=Number.parseFloat(newState.show)
       if (newState.leftOperand == null) {newState.leftOperandHint=newState.show}
       else {
         newState.rightOperandHint=newState.show
@@ -86,6 +88,7 @@ export default (calculation = defaultState, action) => {
     case CLEAR_ALL:
       newState.leftOperand  = null
       newState.rightOperand = null
+      newState.operator= null
       newState.show = 0
       newState.leftOperandHint=''
       newState.rightOperandHint=''
