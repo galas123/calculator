@@ -31,6 +31,7 @@ class Button extends Component {
           break
 
         default:
+          console.log(operator)
           addSymbol(operator)
       }
     }

@@ -9,6 +9,15 @@ function calcExp(left, right, operator){
   }
   return left
 }
+function reset(newState){
+  newState.leftOperand  = null
+  newState.rightOperand = null
+  newState.operator= null
+  newState.show = 0
+  newState.leftOperandHint=''
+  newState.rightOperandHint=''
+  newState.operatorHint=''
+}
 
 const defaultState = {
   show: '',
@@ -29,13 +38,7 @@ export default (calculation = defaultState, action) => {
   switch (type) {
     case ADD_SYMBOL:
       if (newState.operator == '=') {
-        newState.leftOperand  = null
-        newState.rightOperand = null
-        newState.operator= null
-        newState.show = 0
-        newState.leftOperandHint=''
-        newState.rightOperandHint=''
-        newState.operatorHint=''
+        reset(newState)
       }
 
       if (!newState.canCalc) {
@@ -43,25 +46,26 @@ export default (calculation = defaultState, action) => {
       }
 
       newState.show += payload.symbol
-      newState.show=Number.parseFloat(newState.show)
-      if (newState.leftOperand == null) {newState.leftOperandHint=newState.show}
+
+      if (newState.leftOperand == null) {
+        newState.leftOperandHint=newState.show
+      }
       else {
         newState.rightOperandHint=newState.show
       }
       newState.canCalc = true
-
       return newState
 
     case SET_OPERATOR:
       if (newState.canCalc) {
         if (newState.leftOperand == null) {
-          newState.leftOperand = Number(newState.show)
+          newState.leftOperand = parseFloat(newState.show)
 
         }
         else {
-          newState.rightOperand = Number(newState.show)
+          newState.rightOperand = parseFloat(newState.show,2)
           newState.show         = calcExp(newState.leftOperand, newState.rightOperand, newState.operator)
-          newState.leftOperand  = Number(newState.show)
+          newState.leftOperand  = parseFloat(newState.show,2)
         }
       }
       newState.operator = payload.operator
@@ -86,13 +90,7 @@ export default (calculation = defaultState, action) => {
       return newState
 
     case CLEAR_ALL:
-      newState.leftOperand  = null
-      newState.rightOperand = null
-      newState.operator= null
-      newState.show = 0
-      newState.leftOperandHint=''
-      newState.rightOperandHint=''
-      newState.operatorHint=''
+      reset(newState)
       return newState
   }
   return newState
