@@ -2,45 +2,26 @@ import React, {
   Component,
   PropTypes,
 } from 'react';
-import { addSymbol, setOperator, clearLastOperand,clearAll } from '../AC/buttons'
-import { connect } from 'react-redux'
+import { AC,CE} from '../constants'
 
-class Button extends Component {
+import cx from 'classnames'
+
+export default class Button extends Component {
+
   render() {
-    const {operator}=this.props
+    const {operator, hasAltColor}=this.props;
     return (
-      <button className="button" onClick={this.clickCalcButton}>{operator}</button>
+      <button className={cx('button',{'button_alt-color':hasAltColor})} onClick={this.clickCalcButton}>{operator}</button>
     );
   }
 
   clickCalcButton = (ev) => {
+    const {command}=this.props;
     ev.preventDefault()
-    const {operator, setOperator, addSymbol, clearLastOperand, clearAll}=this.props
-    console.log('buttonClick', operator)
-    if ('+-*/='.indexOf(operator) !== -1) {
-      setOperator(operator)
-    }
-    else {
-      switch (operator) {
-        case 'AC':
-          clearAll()
-          break
-
-        case 'CE':
-          clearLastOperand()
-          break
-
-        default:
-          console.log(operator)
-          addSymbol(operator)
-      }
-    }
+    command()
   }
 }
 
-export default connect(
-  (store)=>({show:store.calculator.show}),
-  {setOperator, addSymbol, clearLastOperand, clearAll}
-)(Button);
+
 
 

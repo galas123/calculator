@@ -20,7 +20,7 @@ function reset(newState){
 }
 
 const defaultState = {
-  show: '',
+  show: 0,
   leftOperand: null,
   rightOperand: null,
   operator: null,
@@ -38,7 +38,7 @@ export default (calculation = defaultState, action) => {
   switch (type) {
     case ADD_SYMBOL:
       if (newState.operator == '=') {
-        reset(newState)
+       const newState=Object.assign({}, defaultState)
       }
 
       if (!newState.canCalc) {
@@ -53,6 +53,7 @@ export default (calculation = defaultState, action) => {
       else {
         newState.rightOperandHint=newState.show
       }
+      
       newState.canCalc = true
       return newState
 
@@ -60,7 +61,6 @@ export default (calculation = defaultState, action) => {
       if (newState.canCalc) {
         if (newState.leftOperand == null) {
           newState.leftOperand = parseFloat(newState.show)
-
         }
         else {
           newState.rightOperand = parseFloat(newState.show,2)
@@ -71,7 +71,6 @@ export default (calculation = defaultState, action) => {
       newState.operator = payload.operator
       newState.canCalc  = false
       if (newState.operator == '=') {
-       // newState.leftOperand  = 0
         newState.rightOperand = 0
         newState.rightOperandHint=newState.rightOperandHint+'='+newState.show
       }
@@ -90,8 +89,7 @@ export default (calculation = defaultState, action) => {
       return newState
 
     case CLEAR_ALL:
-      reset(newState)
-      return newState
+      return Object.assign({}, defaultState)
   }
   return newState
 }
